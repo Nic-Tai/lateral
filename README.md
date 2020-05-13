@@ -1,0 +1,2 @@
+# lateral
+ salon website chinese
