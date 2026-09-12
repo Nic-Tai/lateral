@@ -1,11 +1,21 @@
 (function () {
 	var STORAGE_KEY = "qmTemplateBannerDismissed";
+	var root = document.documentElement;
 	var banner = document.querySelector(".template-banner");
 	var closeButton = document.querySelector("[data-template-banner-close]");
 	var downloadLink = document.querySelector("[data-template-download]");
 
+	function syncBannerHeight() {
+		if (!banner || !root.classList.contains("has-template-banner") || banner.hasAttribute("hidden")) {
+			root.style.setProperty("--template-banner-height", "0px");
+			return;
+		}
+		root.style.setProperty("--template-banner-height", banner.offsetHeight + "px");
+	}
+
 	function dismiss() {
-		document.documentElement.classList.remove("has-template-banner");
+		root.classList.remove("has-template-banner");
+		root.style.setProperty("--template-banner-height", "0px");
 		try {
 			localStorage.setItem(STORAGE_KEY, "1");
 		} catch (error) {
@@ -16,12 +26,19 @@
 		}
 	}
 
-	if (!document.documentElement.classList.contains("has-template-banner")) {
+	if (!root.classList.contains("has-template-banner")) {
 		if (banner) {
 			banner.setAttribute("hidden", "hidden");
 		}
+		syncBannerHeight();
 		return;
 	}
+
+	syncBannerHeight();
+	if (window.ResizeObserver && banner) {
+		new ResizeObserver(syncBannerHeight).observe(banner);
+	}
+	window.addEventListener("resize", syncBannerHeight);
 
 	if (closeButton) {
 		closeButton.addEventListener("click", function (event) {
