@@ -6,6 +6,10 @@
 	top: var(--template-banner-height);
 }
 
+.has-template-banner .intro {
+	padding-top: calc(15% + var(--template-banner-height));
+}
+
 .template-banner {
 	display: none;
 }
@@ -118,11 +122,14 @@
 	right: 10px;
 	top: 50%;
 	transform: translateY(-50%);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	width: 32px;
 	height: 32px;
 	border: 0;
 	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.12);
+	background: rgba(255, 255, 255, 0.22);
 	color: #fff;
 	font-size: 22px;
 	line-height: 1;
@@ -136,17 +143,22 @@
 
 @media screen and (max-width: 800px) {
 	.has-template-banner .template-banner {
-		flex-wrap: wrap;
-		justify-content: flex-start;
+		display: grid;
+		grid-template-columns: 1fr auto;
+		grid-template-areas:
+			"copy close"
+			"actions actions";
 		align-items: center;
+		justify-content: stretch;
 		gap: 8px 10px;
-		padding: 8px 40px 10px 12px;
+		padding: 8px 10px 10px 12px;
 	}
 
 	.template-banner__copy {
+		grid-area: copy;
 		justify-content: flex-start;
 		font-size: 13px;
-		width: calc(100% - 4px);
+		width: auto;
 	}
 
 	.template-banner__text {
@@ -154,13 +166,13 @@
 	}
 
 	.template-banner__actions {
+		grid-area: actions;
 		width: 100%;
 	}
 
 	.template-banner__download {
 		justify-content: center;
 		width: 100%;
-		max-width: 220px;
 	}
 
 	.template-banner__github {
@@ -168,7 +180,9 @@
 	}
 
 	.template-banner__close {
-		top: 10px;
+		grid-area: close;
+		position: static;
 		transform: none;
+		background: rgba(255, 255, 255, 0.28);
 	}
 }
