@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Unknown paths are handled by 404.html and sent back to the homepage.
